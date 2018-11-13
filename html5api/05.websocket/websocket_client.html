@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var wsUri = "ws://echo.websocket.org";
+        var output;
+
+        window.onload = function() {
+            output = document.getElementById("outputDiv");
+            //1. Client WebSocket 객체 생성
+            wsocket = new WebSocket(wsUri);
+
+            //2. open event 처리
+            wsocket.onopen = function(e) {
+                writeToScreen("connect");
+                writeToScreen("test msg1");
+                wsocket.send("test msg");
+            }
+
+            //3. message 수신 받았을때의 event 처리
+            wsocket.onmessage = function(e) {
+                writeToScreen("receive msg = " + e.data);
+                if (wsocket.readyState === wsocket.OPEN) {
+                    writeToScreen("websocket close");
+                    wsocket.close();
+                }
+            }
+
+            //4. 통신 중에 error 발생했을때 event 처리
+            wsocket.onerror = function(e) {
+                writeToScreen(e.type);
+            }
+
+            //5. close event 처리
+            wsocket.onclose = function(e) {
+                writeToScreen("close");
+            }
+
+            function writeToScreen(msg) {
+                var pTag = document.createElement("p");
+                pTag.innerHTML = msg;
+                output.appendChild(pTag);
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <h2>Websocket Test</h2>
+    <div id="outputDiv"></div>
+</body>
+</html>

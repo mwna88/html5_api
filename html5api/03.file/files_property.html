@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #myDiv {
+            border: 1px solid blue;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            document.getElementById("myFile").addEventListener("change", fileFunc);
+        }
+
+        function fileFunc(e) {
+            console.log(e.target.files.length);
+            var myfileList = e.target.files;
+            console.log(myfileList);
+
+            for (var i = 0; i < myfileList.length; i++) {
+                //var clone = myfileList[i].slice(0, math.floor(myfileList[i].size / 2), "image/jpeg");
+                //console.log(clone.size);
+            }
+
+            var myDiv = document.getElementById("myDiv");
+            var fileObj = e.target.files.item(0);
+            var fileReader = new FileReader();
+            var childDiv = document.createElement("div");
+            childDiv.setAttribute("style", "border:2px solid red");
+            fileReader.onload = function(e) {
+                childDiv.innerText = e.target.result;
+                myDiv.appendChild(childDiv);
+            }
+            fileReader.readAsText(fileObj, "euc-kr");
+
+            while(myDiv.hasChildNodes()) {
+                myDiv.removeChild(myDiv.firstChild);
+            }
+
+            //https://www.html5rocks.com/en/tutorials/
+        }
+    </script>
+</head>
+<body>
+    <h1>File 정보 읽기</h1>
+    <input type="file" id="myFile" multiple><br>
+    <div id="myDiv"></div>
+</body>
+</html>
