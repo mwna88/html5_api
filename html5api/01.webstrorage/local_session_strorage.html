@@ -17,6 +17,11 @@
         window.onload = function() {
             view();
         }
+        function save_session() {
+            if (!sessionStorage.getItem("name")) {
+                sessionStorage.setItem("name", document.getElementById("nameInput").value);
+            }
+        }
         function save() {
             var emailInput = document.getElementById("emailInput");
             if (!localStorage.getItem("email")) {
@@ -52,7 +57,9 @@
 <body>
     <h1>Web Storage</h1>
     Email Address : <input type="email" id="emailInput"><br>
-    <button onclick="save()">Save</button>
+    <button onclick="save()">Save</button><br>
+    Name 입력 : <input type="text" id="nameInput"><br>
+    <button onclick="save_session()">SessionSave</button>
     <hr>
     Email Address Display : <span id="emailSpan"></span><br>
     <button onclick="view()">View</button>
